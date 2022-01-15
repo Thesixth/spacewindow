@@ -1,24 +1,29 @@
 import React from "react";
 import "../styles/body.css";
 
-function Body({ items, like, likeItemId, handleLikes }) {
+function Body({ items, handleLikes, likes }) {
   return (
-    <ul className="home">
+    <ul className="body">
       {items.map((item, idx) => (
         <li key={idx}>
           <div className="card">
             <img className="card-img" src={item.hdurl} alt="" />
             <h2>{item.title}</h2>
             <p>Date of capture: {item.date}</p>
-            {like && likeItemId === item.title ? (
-              <button onClick={() => handleLikes(item.title)}>
-                <i className="fa fa-thumbs-down"></i>
-              </button>
-            ) : (
-              <button onClick={() => handleLikes(item.title)}>
-                <i class="fa fa-thumbs-up"></i>
-              </button>
-            )}
+            <button
+              id={idx}
+              className="iconButton"
+              onClick={() => handleLikes(idx)}
+            >
+              {likes.includes(idx) ? (
+                <>
+                  <i className="like fa fa-heart" />
+                  <h3>You like this</h3>
+                </>
+              ) : (
+                <i className="fa fa-heart" />
+              )}
+            </button>
           </div>
         </li>
       ))}

@@ -2,7 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Container, Spinner } from "react-bootstrap";
 import Body from "../components/Body";
-import Search from "../components/Search";
+import Footer from "../components/Footer";
+import Datepicker from "../components/Datepicker";
 
 import "../styles/home.css";
 
@@ -10,18 +11,26 @@ function Home() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-  const [likeItemId, setLikeItemId] = useState(null);
-  const [like, setLike] = useState("false");
+  //search date for when a user selects a date to view images from
   const [searchDate, setSearchDate] = useState("");
-  const handleLikes = (title) => {
-    setLike((like) => !like);
-    setLikeItemId(title);
+  // likes to keep track of liked images
+  const [likes, setLikes] = useState([]);
+
+  const handleLikes = (id) => {
+    if (likes.includes(id)) {
+      setLikes(likes.filter((itemId) => itemId !== id));
+    } else {
+      let newLikes = [...likes];
+      newLikes.push(id);
+      setLikes(newLikes);
+    }
   };
-  const handleSearch = (e) => {
-    // handles search input
+
+  function handleSearchDate(e) {
     setSearchDate(e.target.value);
-  };
+  }
   const fetchData = async (searchDate) => {
+    // is there a search date ?
     const endpoint = searchDate
       ? `https://api.nasa.gov/planetary/apod?api_key=${process.env.REACT_APP_API_KEY}&date${searchDate}&count=12`
       : `https://api.nasa.gov/planetary/apod?api_key=${process.env.REACT_APP_API_KEY}&count=12`;
@@ -33,9 +42,7 @@ function Home() {
           setIsLoaded(true);
           setItems(result);
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
+
         (error) => {
           setIsLoaded(true);
           setError(error);
@@ -43,9 +50,6 @@ function Home() {
       );
   };
 
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
   useEffect(() => {
     fetchData();
   }, [searchDate]);
@@ -55,20 +59,19 @@ function Home() {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
     return (
-      <Spinner animation="border" role="status">
+      <Spinner className="spinner" animation="border" role="status">
         <span className="visually-hidden">Loading...</span>
       </Spinner>
     );
   } else {
     return (
       <Container className="home">
-        <Search handleSearch={handleSearch} searchDate={searchDate} />
-        <Body
-          items={items}
-          handleLikes={handleLikes}
-          like={like}
-          likeItemId={likeItemId}
+        <Datepicker
+          handleSearchDate={handleSearchDate}
+          searchDate={searchDate}
         />
+        <Body items={items} handleLikes={handleLikes} likes={likes} />
+        <Footer />
       </Container>
     );
   }

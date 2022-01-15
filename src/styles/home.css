@@ -1,3 +1,8 @@
 .home {
+  background-color: #fafbff;
   padding: 20px;
+}
+
+.spinner {
+  margin: 50px;
 }
