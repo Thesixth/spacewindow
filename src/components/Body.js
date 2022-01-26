@@ -4,18 +4,18 @@ import "../styles/body.css";
 function Body({ items, handleLikes, likes }) {
   return (
     <ul className="body">
-      {items.map((item, idx) => (
-        <li key={idx}>
+      {items.map((item) => (
+        <li key={item.title}>
           <div className="card">
             <img className="card-img" src={item.hdurl} alt="" />
             <h2>{item.title}</h2>
             <p>Date of capture: {item.date}</p>
             <button
-              id={idx}
+              id={item.title}
               className="iconButton"
-              onClick={() => handleLikes(idx)}
+              onClick={() => handleLikes(item.title)}
             >
-              {likes.includes(idx) ? (
+              {likes.includes(item.title) ? (
                 <>
                   <i className="like fa fa-heart" />
                   <h3>You like this</h3>
