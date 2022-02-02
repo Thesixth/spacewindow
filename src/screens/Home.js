@@ -37,17 +37,14 @@ function Home() {
 
     await fetch(endpoint)
       .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-        },
-
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+      .then((result) => {
+        setIsLoaded(true);
+        setItems(result);
+      })
+      .catch((error) => {
+        setIsLoaded(true);
+        setError(error);
+      });
   };
 
   useEffect(() => {
