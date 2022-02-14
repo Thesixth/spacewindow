@@ -12,11 +12,10 @@ function ImageCard({ image, handleLikes, likes }) {
         >
           {likes.includes(image.title) ? (
             <>
-              <i className="like fa fa-heart" />
-              <h3>You like this</h3>
+              Unlike <i className="like fa fa-heart" />
             </>
           ) : (
-            <i className="fa fa-heart" />
+            <>Like</>
           )}
         </button>
       </div>
