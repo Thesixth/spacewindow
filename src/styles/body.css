@@ -15,13 +15,13 @@ li {
 }
 
 .iconButton {
-  background-color: #fafbff;
+  background-color: #e7e7e7;
+  border-radius: 10%;
   border: none;
-  padding: 15px 32px;
+  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
   font-size: 16px;
-  width: 50%;
   margin: 0 auto;
 }
 
